@@ -71,3 +71,42 @@ XOR3 with full coordinates: **8 training examples -> 56 unseen pairs at 100%.**
 4. Episode-centered features delete the counting signal (it lives in the mean); use a
    running baseline across episodes + explicit bias.
 5. Standardize every channel (running |value| average) before letting them compete.
+
+
+## Beyond-NTIL extensions (Sep 14 night session)
+
+### Similarity decorrelation / novelty detection (t66)
+k-WTA feedback inhibition (top 5% KC) compresses input overlap super-quadratically on the
+real wiring: rho 0.2 -> 0.02, 0.4 -> 0.08, 0.8 -> 0.42. Orthogonal novel inputs activate a
+fresh KC set (overlap 0.10). **The MB is a distance-squaring machine; novelty detection is
+the geometric side effect of sparsification.**
+
+### One-shot learning capacity (t73)
+Each pattern presented exactly once (3 delta-rule passes on that example only):
+- disjoint patterns: 100% accuracy up to N=200, 86% at N=300
+- 25%/50% overlap: 96%/92% at N=200
+Capacity ~200-300 one-shot associations; interference = overlap x sparseness.
+(Metrology: single-pass lr=0.5 explodes the weights; normalize features, use low lr.)
+
+### Decision dynamics (t74, scalar-evidence version)
+Two leaky accumulators (approach/avoid MBONs, mutual inhibition) fed by weak per-step KC
+projection evidence (disjoint PN pools required - with mixed pools the prototype overlap
+is 0.96 and the two "odors" are unresolvable):
+- flip-rate psychometric: 98% / 92% / 85% / 82% at 0/10/20/30% evidence corruption
+- speed-accuracy tradeoff: threshold 0.5 -> 80% (instant); 2.5 -> 95% (4 steps)
+
+### Full-connectome criticality (t75 series, GPU) ★
+The ENTIRE BANC (204,257 neurons, 13.6M connections) with slow synapses (tau=150ms):
+- the silence-to-runaway transition occurs within a razor-thin gain band [0.005, 0.05]
+- in the intermittent regime (gain 0.01-0.02): heavy-tailed avalanche distributions,
+  max avalanche 3,904 spikes (~2% of the brain), log-log slope -0.78..-0.86
+- metrology: an avalanche counter must distinguish two causes of "zero closed avalanches"
+  (silence vs never-closing runaway) - the first measurement mislabeled supercritical
+  global activation as network death
+
+### T41-A pure-math extension (cross-linked from the NTIL repo)
+Exhaustive verification extended to m=5..12: 7,565 coarse solutions, 0 confined-lift
+survivors. Complete kill taxonomy (diagonal multiset + center-diagonal) matches the brute
+force lift test per-solution at m=4..7 (see the NTIL repo
+`research/FOUR_TIGHT_EXCEPTION.md` and the night FINDINGS).
+
