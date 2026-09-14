@@ -110,3 +110,26 @@ survivors. Complete kill taxonomy (diagonal multiset + center-diagonal) matches 
 force lift test per-solution at m=4..7 (see the NTIL repo
 `research/FOUR_TIGHT_EXCEPTION.md` and the night FINDINGS).
 
+
+## The fly brain reads — and why wiring is invisible at face value (Sep 14, t77/t78)
+
+Streaming a character corpus through the full connectome (204k neurons, GPU LIF) and
+training a next-char readout: real wiring 32.1% > bigram 25.6% >> chance 3.8% — but
+**real wiring = shuffled wiring to three decimals**.
+
+Memory-kernel measurement (decode char[t-lag] from state[t]):
+- rate coding: lag0 99%, lag1 28% (= reverse-bigram linguistic correlation, not memory),
+  lag2+ = 0 — the previous token is forgotten within one token
+- slow-synaptic-trace coding (s_slow as the state): lag1 28% -> 46%, lag2 -> 31% —
+  the trace EXISTS in the slow variable
+- but slow/real == slow/shuf exactly: the trace is carried by the directly-driven
+  sensory neurons' own afterimages, not by recurrent propagation
+
+**Mechanism**: sensory drive (I=30) dominates recruitment; recurrent contributions are
+drowned. This explains the ESA/MDPI reservoir line's "resilient to overfitting" finding —
+at sensory-dominated drive, the wiring cannot express itself in sequence memory.
+
+**Breakthrough route identified**: wiring-dependent sequence memory requires operating in
+the propagation regime (the razor-thin intermittent band of T75), where traces travel as
+avalanches beyond the directly-driven population. Precise target for the next session.
+
