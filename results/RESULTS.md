@@ -133,3 +133,29 @@ at sensory-dominated drive, the wiring cannot express itself in sequence memory.
 the propagation regime (the razor-thin intermittent band of T75), where traces travel as
 avalanches beyond the directly-driven population. Precise target for the next session.
 
+
+## The wiring-invisibility theorem (Sep 14 night, t79/t80) ★
+
+Three-fold verification that a passive fly-brain reservoir carries NO wiring-dependent
+sequence information:
+
+| regime | probe | real vs shuffled |
+|---|---|---|
+| sensory-dominated (t77/78) | linear | identical |
+| propagation (t79, gain 5.8) | linear | identical (but multi-token memory EXISTS: lag1 16.5%, lag2 14.7%) |
+| propagation (t80) | 512x2 MLP on JL-projected states | identical |
+
+The propagation regime DOES create multi-token memory traces (t79: lag2 was 0 in the
+sensory-dominated regime, 14.7% in the propagation regime) — but the trace content is
+fully determined by the sensory injection, not the wiring.
+
+**Theorem (operational form):** under passive drive, the Drosophila whole-brain connectome's
+contribution to sequence memory is independent of its wiring, for linear and nonlinear
+probes at this scale. This fundamentally bounds the ESA/MDPI reservoir line and explains
+why task-driven plasticity (the FSD/FLYHARD route) is the productive path: the wiring must
+be SHAPED by the task, not merely PRESENT, to matter for computation.
+
+Honest boundary: 4096-dim JL projection + 512-hidden MLP is not a universal discriminator;
+stronger probes might extract wiring-dependent information. But the burden of proof has
+moved to them.
+
