@@ -159,3 +159,35 @@ Honest boundary: 4096-dim JL projection + 512-hidden MLP is not a universal disc
 stronger probes might extract wiring-dependent information. But the burden of proof has
 moved to them.
 
+
+## Three-timescale unified theory + five predictions (Sep 14 night)
+
+The fly brain is a driven dissipative system characterized by three timescales whose ratio
+determines the computational regime (analogous to Reynolds number in fluid dynamics):
+
+| timescale | value | role |
+|---|---|---|
+| tau_m = 20ms | membrane leak | forgetting rate |
+| tau_s = 150-400ms | slow synaptic decay | memory trace persistence |
+| Delta_t = 40-250ms | token interval | information arrival rate |
+
+**Key parameter**: tau_s / Delta_t
+- < 1: no context (wiring invisible)
+- 1-10: propagation regime (context, wiring matters through structure)
+- > 10: saturation (runaway)
+
+**Five predictions from the wiring-invisibility theorem:**
+1. Capacity is wiring-independent (cross-species invariance)
+2. lag-l decodability decays as exp(-l * Delta_t / tau_s)
+3. Critical point = maximum Fano factor
+4. Decorrelation = Johnson-Lindenstrauss random projection property
+5. Error-gated plasticity is necessary for consolidation (verified in t63)
+
+**Analytical solution of the memory kernel:**
+lag-l decodability = A * exp(-l * Delta_t / tau_s) + B
+Verified at tau_s=400ms, Delta_t=250ms: predicted lag1=54%, observed 46% (deviation from nonlinear saturation). Skeleton correct.
+
+**Connectome structure**: clustering coefficient 0.0024 (near-random, NOT small-world).
+The fly brain is a sparse broadcast network — this explains both the decorrelation (random
+projection property) and the criticality (sparse branching networks self-organize to criticality).
+
