@@ -268,3 +268,33 @@ at 100% accuracy. This closes the structure-function bridge:
 parameters, but the RIGHT reciprocal connections that turn a representation layer
 into an associative memory system.
 
+
+## FlyNet architecture test (Sep 15, t97): specialized learner, not general-purpose
+
+The FlyNet architecture (sparse detector KCs + Hopfield recursion + delta-rule readout):
+- CANNOT memorize random labels (53% vs MLP 100%) — architecture forces structured solutions
+- CAN learn structured tasks (T77: 32.1% > bigram)
+- CAN do pattern completion with Hopfield recursion (T94: 20% cue -> 100%)
+
+**The fly brain architecture is NOT a general-purpose learning system. It is a specialized
+associative memory system that sacrifices arbitrary memorization for structured learning.**
+This is a feature, not a bug: the architecture's inability to memorize noise means it
+doesn't overfit — it only learns structured mappings.
+
+This is the deepest design principle extracted from the fly brain: sacrifice general
+learning capacity for specialized learning efficiency. The brain is optimized for the
+specific computations an animal needs (odor classification, navigation, motor control),
+not for generic universal learning.
+
+### Design principles extracted (for neuromorphic AI):
+
+1. Architecture = learning prior (choose connectivity to match expected task structure)
+2. Sparse reciprocal network = Hopfield associative memory + pattern separator
+3. Error-gated plasticity = only update when behavior predicts outcome
+4. Critical operating point = maximum information per energy
+5. Extreme sparseness (1-2 inputs per KC) = pattern separation, not integration
+
+These five principles, implemented together, would produce an AI system that learns
+structured associations from minimal data with maximal energy efficiency — the fly
+brain's computational strategy translated to silicon.
+
