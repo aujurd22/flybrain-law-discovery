@@ -322,3 +322,47 @@ models perform identically regardless of attention sparsity.
 
 **Scaling confirmation**: sparse attention principle holds from 817k to 124M parameters.
 
+
+## T108: Honest performance comparison — sparse attention is NOT faster on GPU (Sep 16)
+
+The full picture, including the uncomfortable results:
+
+### VRAM during training (12-layer GPT-2, FP16, RTX 4070S)
+
+| seq_len | Full inference peak | FlyNet inference peak | Full training peak | FlyNet training peak |
+|---|---|---|---|---|
+| 128 | 867 MB | 877 MB | 3.4 GB | 3.4 GB |
+| 512 | 1.5 GB | 1.5 GB | 5.3 GB | 6.5 GB |
+| 1024 | 2.3 GB | 2.3 GB | **9.1 GB** | **14.2 GB (OOM)** |
+| 2048 | 4.1 GB | 4.1 GB | **20.5 GB (OOM)** | **OOM** |
+
+### Inference speed (per forward pass)
+
+| seq_len | Full | FlyNet | FlyNet slower by |
+|---|---|---|---|
+| 128 | 13.5ms | 12.1ms | FlyNet 10% faster |
+| 512 | 48.5ms | 69.1ms | Full 43% faster |
+| 1024 | 120.7ms | 204.1ms | Full 69% faster |
+
+### Why FlyNet is slower despite 95% less theoretical FLOPs
+
+The topk() operation generates irregular sparse patterns that cannot use GPU
+Tensor Cores (which are optimized for dense matrix multiplication). The sorting
+overhead (O(n·log k)) plus the scatter/gather operations eat the theoretical savings.
+
+### The honest conclusion
+
+1. **Theory**: sparse attention saves 95% FLOPs (confirmed)
+2. **Quality**: sparse attention matches or slightly beats full (confirmed, T103+T107)
+3. **GPU reality**: sparse attention is SLOWER and uses MORE training VRAM (new finding)
+4. **Why**: GPU Tensor Cores are optimized for dense matrices; irregular sparsity breaks this
+5. **What would fix this**: a dedicated sparse attention kernel (FlashAttention-sparse variant)
+
+This mirrors the broader lesson from the entire research campaign:
+**architectural insights from biology are correct at the information-theory level,
+but translating them into practical speedups requires hardware-level engineering
+that doesn't yet exist.**
+
+The fly brain doesn't have this problem because it IS the hardware — 802× reciprocal
+enrichment is free when your "hardware" grows the connections during development.
+
